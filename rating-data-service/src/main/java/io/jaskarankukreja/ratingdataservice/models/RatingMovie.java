@@ -1,8 +1,6 @@
 package io.jaskarankukreja.ratingdataservice.models;
 
 public class RatingMovie {
-
-	private int userId;
 	private int movieId;
 	private int rating;
 	public RatingMovie(int movieId,int rating)

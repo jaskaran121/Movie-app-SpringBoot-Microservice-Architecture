@@ -14,6 +14,7 @@ import org.springframework.web.client.RestTemplate;
 import io.jaskarankukreja.moviecatalogservice.models.CatalogItem;
 import io.jaskarankukreja.moviecatalogservice.models.MovieInfo;
 import io.jaskarankukreja.moviecatalogservice.models.RatingMovie;
+import io.jaskarankukreja.moviecatalogservice.models.UserRating;
 
 import java.util.Collections;
 import java.util.List;
@@ -28,9 +29,12 @@ public class MovieCatalogController {
 	
     @RequestMapping("/{userId}")
     public List<CatalogItem> getCatalog(@PathVariable("userId") String userId) {
-    	ResponseEntity<List<RatingMovie>> response = restTemplate.exchange("http://localhost:8083/rating/"+ userId, HttpMethod.GET,null,
-    			new ParameterizedTypeReference<List<RatingMovie>>() {});
-    	List<RatingMovie> ratings = response.getBody();
+//    	ResponseEntity<List<RatingMovie>> response = restTemplate.exchange("http://localhost:8083/rating/"+ userId, HttpMethod.GET,null,
+//    			new ParameterizedTypeReference<List<RatingMovie>>() {});
+    	
+    	//List<RatingMovie> ratings = response.getBody();
+    	UserRating userRating = restTemplate.getForObject("http://localhost:8083/rating/"+ userId, UserRating.class);
+    	List<RatingMovie> ratings = userRating.getMoviesRating();		
     	return ratings.stream().map(rating -> {
     		MovieInfo movie = restTemplate.getForObject("http://localhost:8082/movies/" + rating.getMovieId(), MovieInfo.class);
     		return new CatalogItem(movie.getName(),movie.getDescription(),rating.getRating());}).collect(Collectors.toList());

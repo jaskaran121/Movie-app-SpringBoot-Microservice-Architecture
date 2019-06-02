@@ -10,16 +10,9 @@ public class RatingMovie {
 	}
 	public RatingMovie(int movieId,int rating)
 	{
-		//this.userId = userId;
 		this.movieId = movieId;
 		this.rating = rating;
 	}
-//	public int getUserId() {
-//		return userId;
-//	}
-//	public void setUserId(int userId) {
-//		this.userId = userId;
-//	}
 	public int getMovieId() {
 		return movieId;
 	}
