@@ -33,10 +33,10 @@ public class MovieCatalogController {
 //    			new ParameterizedTypeReference<List<RatingMovie>>() {});
     	
     	//List<RatingMovie> ratings = response.getBody();
-    	UserRating userRating = restTemplate.getForObject("http://localhost:8083/rating/"+ userId, UserRating.class);
+    	UserRating userRating = restTemplate.getForObject("http://rating-data-service/rating/"+ userId, UserRating.class);
     	List<RatingMovie> ratings = userRating.getMoviesRating();		
     	return ratings.stream().map(rating -> {
-    		MovieInfo movie = restTemplate.getForObject("http://localhost:8082/movies/" + rating.getMovieId(), MovieInfo.class);
+    		MovieInfo movie = restTemplate.getForObject("http://movie-info-service/movies/" + rating.getMovieId(), MovieInfo.class);
     		return new CatalogItem(movie.getName(),movie.getDescription(),rating.getRating());}).collect(Collectors.toList());
     	}
     }
